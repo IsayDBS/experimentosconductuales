@@ -17,6 +17,19 @@ var preload = {
     auto_preload: true,
 }
 
+var bienvenida = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <p>En este experimento, se mostrará una flecha apuntando en alguna dirección</p>
+    <p>ya sea hacia arriba, abajo, derecha o izquierda, después de esto, se presentará</p>
+    <p>una imagen en alguna de estas direcciones, tu objetivo es seleccionar una tecla</p>
+    <p>que indique en que lugar esta la image.</p>ß
+    <p>Esto con arriba(w), abajo(s), izquierda(a) o derecha(d)</p>
+    `,
+}
+
+timeline.push(bienvenida)
+
 var flecha = {
     type: jsFlecha,
 }

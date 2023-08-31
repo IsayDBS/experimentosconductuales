@@ -23,6 +23,17 @@ var preload = {
 
 timeline.push(preload);
 
+var bienvenida = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <p>En este experimento, se plantea que el participante presione una tecla que relacione</p>
+    <p>la palabra que aparecerá por un momento con alguna de las dos marcas que se mencionan,</p>
+    <p>también aparecerá una imagen al azar de alguna de las marcas.</p>
+    `,
+}
+
+timeline.push(bienvenida)
+
 var dummies = [
     {
         palabra: 'COSTO',
