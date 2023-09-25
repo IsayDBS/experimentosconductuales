@@ -10,11 +10,25 @@ L en el sentido correcto, la imagen aparecerá por 350 ms.
 #Funciones
 #=========
 
-#Funcion utilizada para dibujar cajas
-#Recibe una lista como parámetro con objetos imagenes que a cada uno le aplicará un draw()
 def dibujaCajas(imagenes):
     for i in imagenes:
         i.draw()
+
+#Funcion utilizada para convertir una lista de objetos imagenes a lista de strings que describen dichas imagenes
+#es decir, tenemos [imagenL0, imagenL1, imagenL2, imagenL3], queremos ["L incorrecta","L incorrecta", "L incorrecta","L correcta"]
+#ya que imagenL3 es la que tiene la imagen con la L en orientación correcta
+def listaImagenes(lista, iteraciones):
+    #Estructura de datos diccionario donde la llave será un objeto imagen, y el valor será si la L tiene orientación correcta
+    #o no
+    diccionarioAux = {imagenL0 : "L incorrecta", imagenL1: "L incorrecta", imagenL2: "L incorrecta", imagenL3: "L correcta"}
+    #Lista que utilizaremos para devolver la lista si las L's son correctas
+    listaAux = []
+    #Iteramos sobre las listas
+    for i in range(iteraciones):
+        #Revisamos el valor de i que es un objeto imagen en el diccionario, y agregamos su valor a la lista
+        listaAux.append(diccionarioAux[lista[i]])
+    #Regresamos la lista
+    return listaAux
 
 #===============
 #Final funciones
@@ -63,11 +77,6 @@ ventana.flip()
 
 #Esperamos la respuesta del participante
 c = kb.waitKeys()
-
-if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
-    #Final del programa
-    ventana.close() #Cierra la ventana en la que se hizo el ensayo
-    core.quit()     #Cierra todo lo referente a psychopy
 
 #Se limpia la ventana ya que no había nada en el buffer
 ventana.flip()
@@ -144,7 +153,7 @@ respuestas = []
 
 #Repetimos el ensayo 5 veces
 for i in range(5):
-    #Dibuja los cuadros en el buffer
+    
     dibujaCajas(cajas)
 
     #Pasamos el buffer a la ventana, se vacía el buffer
@@ -165,7 +174,7 @@ for i in range(5):
     # 0 va a aparecer 1, 1 van a aparecer 2, 2 van a aparecer 3 y 3 van a aparecer los 4
     apariciones = random.randint(0,3)
 
-    #Dibujamos los cuadros en el buffer
+    
     dibujaCajas(cajas) 
 
     #Como no sabemos que L's hay en letrasEnCajas, iteramos sobre la lista segun la cantidad 
@@ -187,21 +196,18 @@ for i in range(5):
     #Esperamos 350 ms con los cuadros llenos
     core.wait(.35)
 
-    #Dibujamos los cuadros en el buffer
+    
     dibujaCajas(cajas)
 
     #Pasamos el buffer a la ventana, el buffer se vacía
     ventana.flip()
 
     #Esperamos la tecla presionada por el participante
-    c = kb.waitKeys(keyList=['g','h','escape'])
+    c = kb.waitKeys(keyList=['g','h'])
 
-    if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
-        #Final del programa
-        ventana.close() #Cierra la ventana en la que se hizo el ensayo
-        core.quit()     #Cierra todo lo referente a psychopy
+    
     #El participante presionó la tecla g y la L con orientación correcta esta
-    elif c[0].name == 'g' and seEncuentra == True:
+    if c[0].name == 'g' and seEncuentra == True:
         #Al estar la L y presionando la tecla correcta, se dibuja el checkmark
         imagenCorrecto.draw()
         #Guardamos la tecla que el participante presionó
@@ -230,18 +236,12 @@ for i in range(5):
         ventana.flip()
         #Esperamos 1 segundo
         core.wait(1)
-    #El participante presionó la tecla h y la L con orientación correcta no esta
+    #El participante presionó la tecla h y la L con orientación correcta esta
     elif c[0].name == 'h' and seEncuentra == True:
-        #Al estar la L y presionando la tecla incorrecta, se dibuja la equis
-        imagenIncorrecto.draw()
-        #Guardamos la tecla que el participante presionó
-        teclaPresionada = 'h'
-        #Pasamos el buffer a la ventana
-        ventana.flip()
-        #Esperamos 1 segundo
-        core.wait(1)
+        #Aqui va codigo
+        print("Aqui va tu codigo ;)")
     #Agregamos las respuestas del participante al a la lista respuestas
-    respuestas.append(['','',seEncuentra, teclaPresionada])
+    respuestas.append(['','',listaImagenes(letrasEnCajas,apariciones+1),seEncuentra, teclaPresionada])
     #Volvemos la variale seEncuentra a False para usarla de nuevo el siguiente ensayo
     seEncuentra = False
 
@@ -266,7 +266,7 @@ with open('respuesta_bloque.csv','w',encoding='UTF8',newline='') as f:
 
     #el método writerow() escribirá en un renglón, en este caso, en el primer renglón del archivo csv
     #con los elementos de la lista en una columna diferente en el mismo renglón
-    writer.writerow(['nombre','edad','seEncuentraL','teclaPresionada'])
+    writer.writerow(['nombre','edad','listaDeLs','seEncuentraL','teclaPresionada'])
 
     #escribimos en el siguiente renglón toda la información pertinente al nombre y edad
     #utilizando la lista ok_data
