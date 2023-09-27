@@ -46,6 +46,10 @@ var jsVisualArray = (function (jspsych){
 
     class VisualArray{
 
+        /*
+        * Constructor estándar, siempre que se crea un pulgin personalizado
+        * este es obligatorio
+        */
         constructor(jsPsych){
             this.jsPsych = jsPsych;
         }
@@ -82,6 +86,11 @@ var jsVisualArray = (function (jspsych){
             return aux;
         }
 
+        /*
+        * Método trial, en este método va todo lo que hará nuestro plugin
+        * display_element es un objeto que utilizamos para mostrar elementos html
+        * trial es un objeto que sus atributos son los parámetros
+        */
         trial(display_element, trial){
             //Lista donde guardaremos las posiciones de los recuadros pintados
             //de la forma [renglo, columna]
@@ -89,6 +98,9 @@ var jsVisualArray = (function (jspsych){
 
             var colorCirculo = 'color'
 
+            /*
+            * Preguntamos si el programador puso random en true
+            */
             if(trial.random){
                 //Revisamos si nos dieron cuantos cuadros tendra, en caso de que no, le damos un valor
                 //al azar entre 4 y 12
@@ -131,6 +143,7 @@ var jsVisualArray = (function (jspsych){
                 colorCirculo = this.coloresArreglo(trial.arreglo, posColores[0])
             }else{
 
+                //Colorea nuestro arreglo, de numeros a html, con la posicion del circulo 
                 colorCirculo = this.coloresArreglo(trial.arreglo, trial.posicionDelCirculo)
                 
                 //Utilizamos la lista para simplificar codigo, solo utilizamos el primer elemento
@@ -201,23 +214,35 @@ var jsVisualArray = (function (jspsych){
               </tr>
             </table>
             `
+
+            /*
+            * Pasamos la variable html_content a pantalla
+            */
             display_element.innerHTML = html_content;
 
+            /*
+            * Final de método trial
+            * En este caso, se esperará 1000 ms
+            */
             this.jsPsych.pluginAPI.setTimeout(() =>{
                 this.jsPsych.pluginAPI.clearAllTimeouts();
                 display_element.innerHTML = "";
                 var trial_data = {
-                    rt: info.rt,
+                    rt: info.rt,             //Tiempo de la prueba (1000 ms)
                     arreglo: trial.arreglo, //arreglo convertido en html
                     color: colorCirculo,    //Color de la posicion que sera circulada, es decir, posColores[0]
                     posicionCirculo: posColores[0], //primera posicion que es la que se va a circular
                 };
-    
+
+                /*
+                * Finalizamos el plugin, pasamos el objeto creado anteriormente como parámetro
+                */
                 this.jsPsych.finishTrial(trial_data);
-            }, 900);//es 900
+            }, 1000);
         }
     }
 
+    //Final de plugin
     VisualArray.info = info;
 
     return VisualArray

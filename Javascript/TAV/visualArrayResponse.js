@@ -47,6 +47,10 @@ var jsVisualArrayResponse = (function (jspsych){
 
     class VisualArrayResponse{
 
+        /*
+        * Constructor estándar, siempre que se crea un pulgin personalizado
+        * este es obligatorio
+        */
         constructor(jsPsych){
             this.jsPsych = jsPsych;
         }
@@ -63,8 +67,15 @@ var jsVisualArrayResponse = (function (jspsych){
             `
         }
 
+        /*
+        * Método trial, en este método va todo lo que hará nuestro plugin
+        * display_element es un objeto que utilizamos para mostrar elementos html
+        * trial es un objeto que sus atributos son los parámetros
+        */
         trial(display_element, trial){
+            //Se guarda el arreglo en una constante para poder usarlo más adelante
             const array = trial.arreglo
+
             //Preguntamos si hay cambio de color en la celda
             if(trial.cambioColor){//si hay cambio de color
                 this.circuloPosicion(array, trial.posicion, trial.color)
@@ -72,6 +83,9 @@ var jsVisualArrayResponse = (function (jspsych){
                 this.circuloPosicion(array, trial.posicion, trial.colorPosicion)
             }
 
+            /*
+            * String html que pone todos los cuadros del arreglo en pantalla
+            */
             var html_content = `
             <table>
               <tr>
@@ -132,27 +146,63 @@ var jsVisualArrayResponse = (function (jspsych){
               </tr>
             </table>
             `
+
+            /*
+            * Pasamos la variable html_content a pantalla
+            */
             display_element.innerHTML = html_content;
 
+            /*
+            * Función que es llamada en callback_function al final de trial
+            * Le pasamos el parámetro info, el cual tiene dos atributos,
+            * key, que es la tecla presionada
+            * rt, que es el tiempo que le tomo presionarla 
+            */
             const after_key_response = (info) => {
                 //Esconde imagen
                 display_element.innerHTML = '';
             
-                // informacion que se va a guardar
-                let data = {
-                  rt: info.rt,
-                  cambioDeColor: trial.cambioColor,
-                  correcto: function(){ //nos dice si acerto o no
-                    if(trial.cambioColor){
-                        return this.jsPsych.pluginAPI.compareKeys(info.key,'s')
-                    }else{
-                        return this.jsPsych.pluginAPI.compareKeys(info.key,'k')
+                //variable que compara los valores dados por el usuario y el esperado
+                var valores = null
+
+                /*
+                * Preguntamos si se permitio el cambio de color
+                */
+                if(trial.cambioColor){
+                    valores = this.jsPsych.pluginAPI.compareKeys(info.key,'s')
+                }else{
+                    valores = this.jsPsych.pluginAPI.compareKeys(info.key,'k')
+                }
+
+                //Variable data que se guarda información en el csv
+                let data = null
+
+                /*
+                * Si cambioColor es false, el colorCeldaDespuesDePrueba es el mismo que colorCeldaAntesDePrueba
+                * Si es true, colorCeldaDespuesDePrueba es diferente a colorCeldaAntesDePrueba
+                */
+                if(trial.cambioColor == false){
+                    // informacion que se va a guardar
+                    data = {
+                        rt: info.rt,
+                        cambioDeColor: trial.cambioColor,
+                        correcto: valores,
+                        colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
+                        colorCeldaDespuesDePrueba: trial.colorPosicion,
+                        posicionCelda: trial.posicion,
+                        arreglo: trial.arreglo,
                     }
-                  },
-                  colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
-                  colorCeldaDespuesDePrueba: trial.color,
-                  posicionCelda: trial.posicion,
-                  arreglo: trial.arreglo,
+                }else{
+                    // informacion que se va a guardar
+                    data = {
+                        rt: info.rt,
+                        cambioDeColor: trial.cambioColor,
+                        correcto: valores,
+                        colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
+                        colorCeldaDespuesDePrueba: trial.color,
+                        posicionCelda: trial.posicion,
+                        arreglo: trial.arreglo,
+                    }
                 }
             
                 // final
@@ -160,9 +210,13 @@ var jsVisualArrayResponse = (function (jspsych){
               }
             
 
+            /*
+            * Final del método trial, en este caso, se espera una respuesta 
+            * del teclado
+            */
             this.jsPsych.pluginAPI.getKeyboardResponse({
                 callback_function: after_key_response,
-                valid_responses: ['s','k'],//respuestas validas
+                valid_responses: ['s','k'],             //respuestas validas
                 persist: false,});
         }
     }
