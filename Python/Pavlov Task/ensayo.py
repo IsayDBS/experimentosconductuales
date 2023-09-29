@@ -83,18 +83,16 @@ directory = os.getcwd()
 sonido = sound.Sound(directory + '/multimedia/bell-ring-01.wav')#concatenamos la dirección que tenemos en la
 #variable directory con la dirección dentro de la carpeta multimedia
 
-#Creamos un objeto ImageStim, que recibe dos parámetros, el primero una ventana, el segundo, que es image, que es
-#la dirección a la imagen, que esta dentro de la carpeta multimedia
-imagen = visual.ImageStim(ventana, image = directory + '/multimedia/blue.png')
+#Creamos un objeto ImageStim, que recibe tres parámetros, el primero una ventana, el segundo, que es image, que es
+#la dirección a la imagen, que esta dentro de la carpeta multimedia, y el tamanio de la imagen, que es un valor entre
+#0 y 1
+imagen = visual.ImageStim(ventana, image=directory + '/multimedia/blue.png', size=[0.8,0.8])
 
-#Reproducimos el sonido con el método play()
+
 sonido.play()
 
-#Esperamos que se reproduzca por completo el sonido, utiizamos core.wait() que espera un tiempo determinado
-#utilizamos getDuration() para saber la duración de dicho sonido
 core.wait(sonido.getDuration())
 
-#Después de reproducido el sonido, es necesario detenerlo, por lo que usamos el método stop()
 sonido.stop()
 
 #Se dibuja la imagen en el buffer
@@ -141,9 +139,7 @@ with open('respuesta_ensayo.csv','w',encoding='UTF8',newline='') as f:
     #con los elementos de la lista en una columna diferente en el mismo renglón
     writer.writerow(['nombre_participante','edad_participante','se_mostro_imagen','tecla_presionada','tiempo'])
 
-    #escribimos en el siguiente renglón toda la información pertinente a las columnas en el sigueinte renglón
-    #utilizando la lista ok_data
-    writer.writerow(ok_data)
+    #writer.writerow(ok_data)
 
 #Final del programa
 ventana.close() #Cierra la ventana en la que se hizo el ensayo

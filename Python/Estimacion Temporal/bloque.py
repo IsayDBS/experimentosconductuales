@@ -56,7 +56,7 @@ pantallaTamanio = ventana.windowedSize
 pantallaRoja = visual.Rect(ventana, width = pantallaTamanio[0], height = pantallaTamanio[1], color='darkred')
 
 #Imagen usada durante el programa
-imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.2,0.2])
+imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.5,0.5])
 
 #Dibujamos en el buffer las instrucciones
 instrucciones.draw()

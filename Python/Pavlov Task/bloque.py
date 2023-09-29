@@ -68,14 +68,15 @@ directory = os.getcwd()
 #Creamos un objeto sound, el cual tendra el sonido de la camapna, que se encuentra en la carpeta multimedia
 sonido = sound.Sound(directory + '/multimedia/bell-ring-01.wav')
 
-#Creamos un objeto ImageStim, que recibe dos parámetros, el primero una ventana, el segundo, que es image, que es
-#la dirección a la imagen, que esta dentro de la carpeta multimedia
-imagen = visual.ImageStim(ventana, image=directory + '/multimedia/blue.png')
+#Creamos un objeto ImageStim, que recibe tres parámetros, el primero una ventana, el segundo, que es image, que es
+#la dirección a la imagen, que esta dentro de la carpeta multimedia, y el tamanio de la imagen, que es un valor entre
+#0 y 1
+imagen = visual.ImageStim(ventana, image=directory + '/multimedia/blue.png', size=[0.8,0.8])
 
 #Lista de listas que tendrá las respuestas dadas por el participante y que después se pasará al archivo csv
 respuestas = []
 
-#Repertiremos el ensayo 5 veces
+#Repertiremos el ensayo 5 veces, se presenta sonido seguido por la imagen
 for i in range(5):
 
     #Reiniciamos el reloj interno dentro del teclado
@@ -161,7 +162,7 @@ for i in range(5):
             #la cuarta posicion será la tecla presionada por el usuario
             #y en la quinta posición el tiempo que le tomo presionar la tecla
     else:#La funcion random.randint(0,1) == 0
-        #No se imprime la imagen, pero aparece en pantalla por 3 segundos
+        #No se imprime la imagen
 
         #Esperamos la respuesta del teclado del participante por lo máximo de 3 segundos
         c = kb.waitKeys(maxWait = 3)

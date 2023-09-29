@@ -18,8 +18,7 @@ ventanaDeDialogo.addText('Información del participante')        #Agrega texto e
 ventanaDeDialogo.addField('Nombre:')          #Agrega el texto 'Nombre', después del cual, tiene un cuadro donde puedes agregar
 #texto, todo esto estará abajo del texto de información del participante.
 
-ventanaDeDialogo.addField('Edad:')            #Agrega el texto 'Edad', después del cual, tiene un cuadro donde puedes agregar
-#texto, pero en este caso, se espera un número, todo esto estará abajo del texto 'Nombre'
+#ventanaDeDialogo.addField('Edad:')
 
 ok_data = ventanaDeDialogo.show() #Muestra dos opciones, OK o Cancel
 
@@ -119,9 +118,7 @@ with open('respuestas_ensayo.csv','w',encoding='UTF8',newline='') as f:
     #writer nos ayudará a escribir en el archivo csv
     writer = csv.writer(f)
 
-    #el método writerow() escribirá en un renglón, en este caso, en el primer renglón del archivo csv
-    #con los elementos de la lista en una columna diferente en el mismo renglón
-    writer.writerow(['nombre_participante','edad_participante','respuesta_correcta','respuesta','tiempo'])
+    #writer.writerow(['nombre_participante','edad_participante','respuesta_correcta','respuesta','tiempo'])
 
     #escribimos en el siguiente renglón toda la información pertinente a las columnas en el sigueinte renglón
     #utilizando la lista ok_data

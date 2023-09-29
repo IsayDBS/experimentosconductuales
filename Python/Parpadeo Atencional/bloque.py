@@ -5,6 +5,7 @@ import csv, os, random
 """
 Este código es un ensayo. En este ensayo, aparecerá una L sobre uno de los cuadros, el participante decidirá si hubo una
 L en el sentido correcto, la imagen aparecerá por 350 ms.
+Los datos que guardaremos en el archivo csv son 'nombre','edad','listaDeLs','seEncuentraL','teclaPresionada'
 """
 #=========
 #Funciones
@@ -17,10 +18,7 @@ def dibujaCajas(imagenes):
 #Funcion utilizada para convertir una lista de objetos imagenes a lista de strings que describen dichas imagenes
 #es decir, tenemos [imagenL0, imagenL1, imagenL2, imagenL3], queremos ["L incorrecta","L incorrecta", "L incorrecta","L correcta"]
 #ya que imagenL3 es la que tiene la imagen con la L en orientación correcta
-def listaImagenes(lista, iteraciones):
-    #Estructura de datos diccionario donde la llave será un objeto imagen, y el valor será si la L tiene orientación correcta
-    #o no
-    diccionarioAux = {imagenL0 : "L incorrecta", imagenL1: "L incorrecta", imagenL2: "L incorrecta", imagenL3: "L correcta"}
+def listaImagenes(lista, iteraciones, diccionarioAux):
     #Lista que utilizaremos para devolver la lista si las L's son correctas
     listaAux = []
     #Iteramos sobre las listas
@@ -126,6 +124,10 @@ imagenIncorrecto = visual.ImageStim(ventana, image=directory + '/multimedia/erro
 #===================================
 #Terminan la declaración de imagenes
 #=================================== 
+
+#Estructura de datos diccionario donde la llave será un objeto imagen, y el valor será si la L tiene orientación correcta
+#o no
+diccionarioAux = {imagenL0 : "L incorrecta", imagenL1: "L incorrecta", imagenL2: "L incorrecta", imagenL3: "L correcta"}
 
 #Lista con todos los cuadrados
 cajas = [imagenCaja0, imagenCaja1, imagenCaja2, imagenCaja3]
@@ -241,7 +243,7 @@ for i in range(5):
         #Aqui va codigo
         print("Aqui va tu codigo ;)")
     #Agregamos las respuestas del participante al a la lista respuestas
-    respuestas.append(['','',listaImagenes(letrasEnCajas,apariciones+1),seEncuentra, teclaPresionada])
+    respuestas.append(['','',listaImagenes(letrasEnCajas,apariciones+1, diccionarioAux),seEncuentra, teclaPresionada])
     #Volvemos la variale seEncuentra a False para usarla de nuevo el siguiente ensayo
     seEncuentra = False
 

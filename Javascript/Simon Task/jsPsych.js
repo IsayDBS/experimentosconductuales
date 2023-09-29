@@ -43,6 +43,22 @@ var preload = {
 */
 timeline.push(preload);
 
+/*
+* Plugin utilizado para conseguir información del participante
+*/
+var cuestionario = {
+  type: jsPsychSurveyText,
+  questions: [
+    {prompt: 'Escribe tu nombre', name: 'Nombre'},
+    {prompt: 'Escribe tu edad', name: 'Edad'}
+  ]
+}
+
+/*
+* Pasamos el plugin cuestionario a timeline
+*/
+timeline.push(cuestionario)
+
 /* 
 * Mensaje de bienvenida 
 */
@@ -89,50 +105,10 @@ var test_stimuli = [
       correct_response: 'f',
       position: 'left'
     },
-    { stimulus: "img/green_o_f_h_a_079.jpg",  
-      correct_response: 'f',
-      position: 'left'
-    },
-    { stimulus: "img/green_o_f_n_b_079.jpg",  
-      correct_response: 'f',
-      position: 'left'
-    },
-    { stimulus: "img/red_o_f_f_b_079.jpg",  
-      correct_response: 'j',
-      position: 'left'
-    },
-    { stimulus: "img/red_o_f_h_a_079.jpg",  
-      correct_response: 'j',
-      position: 'left'
-    },
-    { stimulus: "img/red_o_f_n_b_079.jpg",  
-      correct_response: 'j',
-      position: 'left'
-    },
     { stimulus: "img/green_o_f_f_b_079.jpg",  
       correct_response: 'f',
       position: 'right'
     },
-    { stimulus: "img/green_o_f_h_a_079.jpg",  
-      correct_response: 'f',
-      position: 'right'
-    },
-    { stimulus: "img/green_o_f_n_b_079.jpg",  
-      correct_response: 'f',
-      position: 'right'
-    },
-    { stimulus: "img/red_o_f_f_b_079.jpg",  
-      correct_response: 'j',
-      position: 'right'
-    },
-    { stimulus: "img/red_o_f_h_a_079.jpg",  
-      correct_response: 'j',
-      position: 'right'
-    },
-    { stimulus: "img/red_o_f_n_b_079.jpg",  
-      correct_response: 'j',
-      position: 'right'
-    }
 ];
 
 /*

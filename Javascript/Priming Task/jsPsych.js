@@ -26,7 +26,7 @@ var timeline = [];
 /*
 * Imagenes utilizadas durante el experimento
 */
-var images = ["img/apple.png","img/samsung.png"];
+var images = ["img/X","img/Y"];
 
 /*
 * Plugin que nos ayuda a carga archivos multimedia antes de usarlos 
@@ -42,6 +42,22 @@ var preload = {
 *Agregamos preload a timeline
 */
 timeline.push(preload);
+
+/*
+* Plugin utilizado para conseguir información del participante
+*/
+var cuestionario = {
+    type: jsPsychSurveyText,
+    questions: [
+      {prompt: 'Escribe tu nombre', name: 'Nombre'},
+      {prompt: 'Escribe tu edad', name: 'Edad'}
+    ]
+  }
+  
+  /*
+  * Pasamos el plugin cuestionario a timeline
+  */
+  timeline.push(cuestionario)
 
 /*
 * Mensaje de bienvenida en el cual se le explica de que trata el experimento
@@ -89,31 +105,7 @@ var imagenes = {
 var dummies = [
     {
         palabra: 'COSTO',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'DURABILIDAD',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'VANGUARDIA',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'ESTILO',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'ACCESIBILIDAD',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'FOTOGRAFIA',
-        imagen: ["img/samsung.png","img/apple.png"],
-    },
-    {
-        palabra: 'PRESTIGIO',
-        imagen: ["img/samsung.png","img/apple.png"],
+        imagen: ["img/X","img/Y"],
     },
 ];
 
@@ -140,8 +132,8 @@ var pruebaImagen = {
     stimulus: function() {
         let html = `
     <div class="container-word">
-        <p class="alignleft">Presiona "E" para Apple</p>
-        <p class="alignright">Presiona "I" para Samsung</p>
+        <p class="alignleft">Presiona "E" para X</p>
+        <p class="alignright">Presiona "I" para Y</p>
     </div>
     `;
     return html;

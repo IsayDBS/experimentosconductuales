@@ -66,6 +66,22 @@ var auxDiccionario = {
 timeline.push(preload)
 
 /*
+* Plugin utilizado para conseguir información del participante
+*/
+var cuestionario = {
+  type: jsPsychSurveyText,
+  questions: [
+    {prompt: 'Escribe tu nombre', name: 'Nombre'},
+    {prompt: 'Escribe tu edad', name: 'Edad'}
+  ]
+}
+
+/*
+* Pasamos el plugin cuestionario a timeline
+*/
+timeline.push(cuestionario)
+
+/*
 * Plugin que presenta las isntrucciones en pantalla
 */
 var bienvenida = {

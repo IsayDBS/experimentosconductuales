@@ -5,7 +5,8 @@ import csv, os
 """
 Este código es un ensayo. En este ensayo, aparecerá una L sobre uno de los cuadros, el participante decidirá si hubo una
 L en el sentido correcto, la imagen aparecerá por 350 ms. Aparecerá una checkmark verde si acertó y un equis roja en caso
-de que no haya acertado
+de que no haya acertado.
+Los datos que guardaremos en el archivo csv son 'nombre','edad','listaDeLs','seEncuentraL','teclaPresionada'
 """
 #=========
 #Funciones
@@ -151,11 +152,13 @@ if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
     #Final del programa
     ventana.close() #Cierra la ventana en la que se hizo el ensayo
     core.quit()     #Cierra todo lo referente a psychopy
-elif c[0].name == 'g':#Se presiono la tecla 'g'
+elif c[0].name == 'g':#Se presiono la tecla 'g', de que la L si estaba
+    #Estos son los datos guardados en el archivo csv
     ok_data.append(False)  #En este ensayo en particular, al no tener la L en orientación correcta, es False
     ok_data.append('g')#Se agrega la tecla que el participante presionó
     imagenIncorrecto.draw() #En este caso particular, al no estar la L, y presionar la g de que si estaba, dibujamos en el buffer la equis
-else: #Se presiono 'h'
+else: #Se presiono 'h', de que la imagen no estaba
+    #Estos son los datos guardados en el archivo csv
     ok_data.append(False)  #En este ensayo en particular, al no tener la L en orientación correcta, es False
     ok_data.append('h')#Se agrega la tecla que el participante presionó
     imagenCorrecto.draw() #En este caso particular, al no estar la L y presionar la h de que no estaba la L, dibujamos el checkmark 

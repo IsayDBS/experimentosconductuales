@@ -63,14 +63,11 @@ mensajeAtencion = visual.TextBox2(ventana, text='Atención', color='black', alig
 #largo de la pantalla [ancho, largo]
 pantallaTamanio = ventana.windowedSize
 
-#Utilizamos un rectángulo para cubrir la pantalla, la razón por la que directamente no apicamos a windows
-#es por optimización, esto es más óptimo y sencillo, por eso seguimos este camino
-#width = ancho , height = alto, color = color del rectángulo, como primer parámetro recibe la ventana en la que trabajamos
 pantallaRoja = visual.Rect(ventana, width = pantallaTamanio[0], height = pantallaTamanio[1], color='darkred')
 
 #Creamos un objeto ImageStim, que recibe dos parámetros, el primero una ventana, el segundo, que es image, que es
 #la dirección a la imagen, que esta dentro de la carpeta img, el parámetro size en una lista, nos dice el ancho y el largo
-imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.2,0.2])
+imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.5,0.5])
 
 #Dibujamos en el buffer las instrucciones
 instrucciones.draw()
@@ -106,6 +103,17 @@ core.wait(1)
 
 #El atributo pos de las imagenes es una lista de dos elementos, el primero nos da una dirección sobre x
 #el segundo sobre y
+#Imagina un plano cartesiano sobre tu pantalla, donde los extremos valen 1 o -1.
+
+#                 [0,1]
+#                   |
+#                   |       [0.75,0.75] Aprox
+#                   |
+#[-1,0]------------------------------[1,0]
+#                   |
+#                   |
+#                   |
+#                 [0,-1]
 imagenAzul.pos = [0.75, 0.75]
 
 #Dibujamos la imagen sobre el buffer
