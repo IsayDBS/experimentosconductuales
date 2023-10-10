@@ -101,25 +101,17 @@ timeline.push(bienvenida)
 /*
 * Plugin que presenta una colección de cuadros de diferentes colores
 * Los parámetros son 
-* random: al ser false, tendremos que escribirlo a mano
+* random: Nos dice si el arreglo es al azar
 * arreglo: es una lista de listas, donde los números representan un color, revisar auxDiccionario para ver los colores
 * posicionDelCirculo: lista de dos elementos que nos dice donde va estar el círculo
 * la primera posición nos dice la lista, la segunda es la posición dentro de la lista
 */
 var arregloCuadros = {
   type: jsVisualArray,
-  random: false,
-  arreglo: [[1,0,0,1],
-            [4,1,1,4],
-            [4,1,1,4],
-            [1,0,0,1]],
-  posicionDelCirculo: [1,2],
+  random: jsPsych.timelineVariable('random'),
+  arreglo: jsPsych.timelineVariable('arreglo'),
+  posicionDelCirculo: jsPsych.timelineVariable('posicionDelCirculo'),
 }
-
-/*
-* Empujamos la varibale arregloCuadros a timeline
-*/
-timeline.push(arregloCuadros)
 
 /*
 * Plugin que solo presenta una cruz en la pantalla por 1000 ms
@@ -135,11 +127,6 @@ var fixation = {
     task: 'fixation'    //Solo nos dice como se llamará en el csv el plugin
   }
 }
-
-/*
-* Agregamos fixation a timeline
-*/
-timeline.push(fixation)
 
 /*
 * Plugin que circula un cuadrado y espera la respuesta del participante
@@ -167,56 +154,64 @@ var revision = {
     return jsPsych.data.get().last(2).values()[0].color
   },
   color: function(){    //Funcion que prueba si hay un color diferente
-    if('red' === jsPsych.data.get().last(2).values()[0].color){//el color es el mismo, hacmeos un random
-      var aux = auxDiccionario[Math.floor(Math.random()*6) + 1]//Declaramos un color haciendo uso de auxDiccionario
-      while(aux == 'red'){                                     //Bucle para evitar que se repita el mismo color
-        aux = auxDiccionario[Math.floor(Math.random()*6) + 1]  //Sale del bucle hasta que se tenga un color diferente
+    if(jsPsych.timelineVariable('color') === jsPsych.data.get().last(2).values()[0].color){//el color es el mismo, hacmeos un random
+      var aux = auxDiccionario[Math.floor(Math.random()*6) + 1]//Declaramos un color haciendo uso de auxDiccionario, nos da un num entre 1 y 6
+      while(aux == jsPsych.timelineVariable('color')){                                     //Bucle para evitar que se repita el mismo color
+        aux = auxDiccionario[Math.floor(Math.random()*6) + 1]  //Sale del bucle hasta que se tenga un color diferente, nos da un num entre 1 y 6
       }
       return aux
     }else{// los colores no son iguales, seguimos normal
-      return 'red'
+      return jsPsych.timelineVariable('color')
     } 
   }
 }
 
 /*
-* Agregamos la variable revision a timeline
+* Lista de variables de tiempo 
 */
-timeline.push(revision)
+var pruebas = [
+  {
+    random: true,
+    arreglo: [],
+    posicionDelCirculo:[],
+    color: auxDiccionario[Math.floor(Math.random()*6) + 1]
+  },
+  {
+    random: true,
+    arreglo: [],
+    posicionDelCirculo: [],
+    color: auxDiccionario[Math.floor(Math.random()*6) + 1],
+  },
+  /*
+  {
+    random: ,
+    arreglo: [],
+    posicionDelCirculo: [],
+    color: ""
+  },
+  {
+    random: ,
+    arreglo: [],
+    posicionDelCirculo: [],
+    color: ""
+  }
+  */
+]
 
 /*
-var arregloCuadros1 = {
-  type: jsVisualArray,
-  random: ,
-  arreglo: ,
-  posicionDelCirculo: ,
+* Plugin utiizado para generar los bloques de ensayos
+*/
+var bloque = {
+  timeline: [arregloCuadros, fixation, revision],
+  timeline_variables: pruebas,
+  randomize_order: true,
+  repetitions: 5
 }
 
-var revision1 = {
-  type: jsVisualArrayResponse,
-  posicion: function(){
-    return jsPsych.data.get().last(2).values()[0].posicionCirculo// no podemos acceder directamente a ellos, necesitamos una funcion
-  },
-  arreglo: function(){
-    return jsPsych.data.get().last(2).values()[0].arreglo
-  },
-  cambioColor: ,
-  colorPosicion: function(){
-    return jsPsych.data.get().last(2).values()[0].color
-  },
-  color: function(){
-    if(COLOR A CAMBIAR == jsPsych.data.get().last(2).values()[0].color){//el color es el mismo, hacmeos un random
-      var aux = auxDiccionario[Math.floor(Math.random()*6) + 1]//Declaramos un color haciendo uso de auxDiccionario
-      while(aux == COLOR A CAMBIAR){                                     //Bucle para evitar que se repita el mismo color
-        aux = auxDiccionario[Math.floor(Math.random()*6) + 1]  //Sale del bucle hasta que se tenga un color diferente
-      }
-      return aux
-    }else{// los colores no son iguales, seguimos normal
-      return COLOR A CAMBIAR
-    } 
-  }
-}
+/*
+* Agregamos el bloque a timeline
 */
+timeline.push(bloque)
 
 /*
 * Final de nuestro programa, corre lo que hay en timeline

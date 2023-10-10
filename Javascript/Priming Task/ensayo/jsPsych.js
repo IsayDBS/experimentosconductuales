@@ -77,37 +77,24 @@ var bienvenida = {
 timeline.push(bienvenida)
 
 /*
-* Mostrar imagenes al azar durante 30 ms
-* jsPsych.timelineVariable('imagen') consigue el objetgo relacionado con
-* la palabra imagen de la lista de variables
-*
-* [jsPsych.randomization.randomInt(0,1)] nos ayuda a sacar una posición al azar de una
-* lista de dos elementos.
+* Mostrar imagen durante 30 ms
+* stimulus recibe la dirección de la imagen
 *
 * stimulues_height es la altura de la imagen en pixeles,
 * stimulus_width es la anchura de la imagen en pixeles
 */
 var imagenes = {
     type: jsPsychImageKeyboardResponse,
-    stimulus: function(){
-               return `${jsPsych.timelineVariable('imagen')[jsPsych.randomization.randomInt(0,1)]}`
-            },
+    stimulus: "img/X",
     stimulus_height: 500,
     stimulus_width: 500,
     trial_duration: 30,
 }
 
-/* 
-* Cada iteración agarrará los valores de los objetos en la siguiente lista
-* Mas adelante en el código se ve como funciona
-* Estimulos posibles,se ponen entre {} para diferenciarlos
-*/ 
-var dummies = [
-    {
-        palabra: 'COSTO',
-        imagen: ["img/X","img/Y"],
-    },
-];
+/*
+* Agregamos la variable imagenes a timeline
+*/
+timeline.push(imagenes)
 
 /*
 * Plugin que solo presenta una cruz en la pantalla por 300 ms
@@ -125,31 +112,9 @@ var fixation = {
   }
 
 /*
-* Plugin que presenta imagenes
+* Agregamos la variable fixation a timeline
 */
-var pruebaImagen = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: function() {
-        let html = `
-    <div class="container-word">
-        <p class="alignleft">Presiona "E" para X</p>
-        <p class="alignright">Presiona "I" para Y</p>
-    </div>
-    `;
-    return html;
-    },
-    choices: "NO_KEYS",
-}
-
-/*
-* Plugin de espacio entre imagenes, una pantalla en blanco que dura 150 ms.
-*/
-var espacioEntreIntervalos = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: "",
-    trial_duration: 150,
-    choices: "NO_KEYS",
-}
+timeline.push(fixation)
 
 /*
 * Muestra la palabra en azul por 500 ms
@@ -169,29 +134,46 @@ var palabraAzul = {
 }
 
 /*
-* Objeto que utilizaremos para repetir plugins con ciertas condiciones, en este caso
-* timeline es una lista de los plugins que se mostraran en un orden fijo, primero irá
-* imagenes, fixation, palabraAzul, espacioEntreIntervalos, pruebaImagen
-*
-* timeline_variables son las variables que tomaran jsPsych.timelineVariable durante el ensayo,
-* se repetirá la cantidad de objetos en la lista, con cada iteración con valores diferentes, por ejemplo:
-* 1ra iteracion:
-* jsPsych.timelineVariable('palabra') = 'COSTO'
-* jsPsych.timelineVariable('imagen') = ["img/samsung.png","img/apple.png"]
-*
-* 2da iteracion:
-* jsPsych.timelineVariable('palabra') = 'DURABILIDAD'
-* jsPsych.timelineVariable('imagen') = ["img/samsung.png","img/apple.png"]
+* Agregamos palabraAzul a timeline
 */
-var test_procedure = {
-    timeline: [imagenes, fixation, palabraAzul, espacioEntreIntervalos, pruebaImagen],
-    timeline_variables: dummies,
+timeline.push(palabraAzul)
+
+/*
+* Plugin de espacio entre imagenes, una pantalla en blanco que dura 150 ms.
+*/
+var espacioEntreIntervalos = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: "",
+    trial_duration: 150,
+    choices: "NO_KEYS",
 }
 
 /*
-* Podras notar que no empujamos los plugins individuales, si no lo que hicimos en test_procedure
+* Agregamos espacioEntreIntervalos a timeline
 */
-timeline.push(test_procedure);
+timeline.push(espacioEntreIntervalos)
+
+/*
+* Plugin que presenta imagenes
+*/
+var pruebaImagen = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function() {
+        let html = `
+    <div class="container-word">
+        <p class="alignleft">Presiona "E" para X</p>
+        <p class="alignright">Presiona "I" para Y</p>
+    </div>
+    `;
+    return html;
+    },
+    choices: "NO_KEYS",
+}
+
+/*
+* Agregamos la variable pruebaImagen a timeline
+*/
+timeline.push(pruebaImagen)
 
 /*
 *Terminaos el experimento, recibe la lista timeline

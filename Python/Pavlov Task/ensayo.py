@@ -88,11 +88,14 @@ sonido = sound.Sound(directory + '/multimedia/bell-ring-01.wav')#concatenamos la
 #0 y 1
 imagen = visual.ImageStim(ventana, image=directory + '/multimedia/blue.png', size=[0.8,0.8])
 
-
+#Reproducimos el sonido con el método play()
 sonido.play()
 
+#Esperamos que se reproduzca por completo el sonido, utiizamos core.wait() que espera un tiempo determinado
+#utilizamos getDuration() para saber la duración de dicho sonido
 core.wait(sonido.getDuration())
 
+#Después de reproducido el sonido, es necesario detenerlo, por lo que usamos el método stop()
 sonido.stop()
 
 #Se dibuja la imagen en el buffer

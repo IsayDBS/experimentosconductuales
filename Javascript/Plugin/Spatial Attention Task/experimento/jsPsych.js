@@ -75,18 +75,45 @@ var bienvenida = {
 timeline.push(bienvenida)
 
 /*
+* Lista de timeline variables
+* 0 arriba, 1 abajo, 2 derecha, 3 izquierda
+*/
+var dummies = [
+  {
+    direccion: 0,
+    posicion: 'top'
+  },
+  {
+    direccion: 1,
+    posicion: 'right'
+  },
+  {
+    direccion: 2,
+    posicion: 'left'
+  },
+  {
+    direccion: 1,
+    posicion: 'bottom'
+  },
+  {
+    direccion: 3,
+    posicion: 'left'
+  },
+  {
+    direccion: -1,
+    posicion: 'right'
+  }
+]
+
+/*
 * Creamos un plugin jsFleha
 * No le pasamos ningun valor a posicion, por lo que su 
 * valor es -1
 */
 var flecha = {
     type: jsFlecha,
+    direccion: jsPsych.timelineVariable('direccion'),
 }
-
-/*
-* Agregamos el plugin flecha a timeline
-*/
-timeline.push(flecha)
 
 /*
 * Creamos un plugin imagen
@@ -95,14 +122,26 @@ timeline.push(flecha)
 */
 var imagen = {
     type: jsImagen,
-    posicion: 'top',
+    posicion: jsPsych.timelineVariable('posicion'),
     imagen: 'img/circulo.png',
   }
 
 /*
-* Agregamos el plugin imagen a timeline
+* Repetición de los estímulos
 */
-timeline.push(imagen)
+/*
+var test_procedure = {
+  timeline: [____, ____],
+  timeline_variables: ____,
+  repetitions: ____,
+  randomize_order: ____,
+}
+*/
+
+/*
+*Agregamos test_procedure a timeline
+*/
+timeline.push(test_procedure)
 
 /*
 * Terminamos nuestro programa, pasamos timeline al método run()

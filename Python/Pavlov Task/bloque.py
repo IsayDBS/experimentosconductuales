@@ -83,14 +83,11 @@ for i in range(5):
     kb.clock.reset()
 
     #Reproducimos el sonido con el método play()
-    sonido.play()
 
     #Esperamos que se reproduzca por completo el sonido, utiizamos core.wait() que espera un tiempo determinado
     #utilizamos getDuration() para saber la duración de dicho sonido
-    core.wait(sonido.getDuration())
 
     #Después de reproducido el sonido, es necesario detenerlo, por lo que usamos el método stop()
-    sonido.stop()
 
     #Dibujamos la imagen en el buffer
     imagen.draw()
@@ -126,14 +123,14 @@ for i in range(5):
     kb.clock.reset()
 
     #Reproducimos el sonido con el método play()
-    sonido.play()
+    
 
     #Esperamos que se reproduzca por completo el sonido, utiizamos core.wait() que espera un tiempo determinado
     #utilizamos getDuration() para saber la duración de dicho sonido
-    core.wait(sonido.getDuration())
+    
 
     #Después de reproducido el sonido, es necesario detenerlo, por lo que usamos el método stop()
-    sonido.stop()
+    
 
     #Haremos uso de la función random para que sea 50% y 50% de posibilidad de que aparezca la imagen
     if random.randint(0,1) == 1: #Si la funcion random.randint(0,1) que elige un numero entero entre el rango 0 y 1, es 1

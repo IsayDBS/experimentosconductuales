@@ -1,0 +1,35 @@
+/*
+* Permite poner textos a dos extremos de la pantalla
+*/
+.container-word{
+    width: 80vw;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+/*
+* Letras de color azul
+*/
+.blue-text {
+    font-size: 30px;
+    color:blue;
+}
+
+/*
+* Alinea a la izquierda
+*/
+.alignleft {
+	float: left;
+}
+
+/*
+* Alinea a la derecha
+*/
+.alignright {
+	float: right;
+}

@@ -78,10 +78,10 @@ if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
 ventana.flip()
 
 #Usaremos una lista para sacar los tiempos que aparecerá la imagen en la pantalla
-tiempos = [.4, 1.6]
+tiempos = []
 
 #Usaremos esta lista para mostrar las diferentes posiciones en las que puede aparecer la imagen en la pantalla
-posiciones=[[0,0],[0.75,0.75],[0.75,-0.75],[-0.75,0.75],[-0.75,-0.75]]
+posiciones=[[0,0]]
 
 #Lista respuestas, donde guardaremos los datos referentes a cada ensayo 
 respuestas = []

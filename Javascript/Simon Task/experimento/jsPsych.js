@@ -95,22 +95,6 @@ var instrucciones = {
 */
 timeline.push(instrucciones)
 
-/* 
-* Cada iteración agarrará los valores de los objetos en la siguiente lista
-* Mas adelante en el código se ve como funciona
-* Estimulos posibles,se ponen entre {} para diferenciarlos
-*/ 
-var test_stimuli = [
-    { stimulus: "img/green_o_f_f_b_079.jpg",  
-      correct_response: 'f',
-      position: 'left'
-    },
-    { stimulus: "img/green_o_f_f_b_079.jpg",  
-      correct_response: 'f',
-      position: 'right'
-    },
-];
-
 /*
 * Plugin que solo presenta una cruz en la pantalla por 500 ms
 */
@@ -162,39 +146,6 @@ var prueba = {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response);
     }
 }  
-  
-/*
-* Objeto que utilizaremos para repetir plugins con ciertas condiciones, en este caso
-* timeline es una lista de los plugins que se mostraran en un orden fijo, primero irá
-* fixation, seguido por prueba (cruz, seguido por la imagen)
-*
-* timeline_variables son las variables que tomaran jsPsych.timelineVariable durante el ensayo,
-* se repetirá la cantidad de objetos en la lista, con cada iteración con valores diferentes, por ejemplo:
-* 1ra iteracion:
-* jsPsych.timelineVariable('correct_response') = 'j'
-* jsPsych.timelineVariable('position') = 'right'
-* jsPsych.timelineVariable('stimulus') = "img/red_o_f_h_a_079.jpg"
-*
-* 2daa iteracion:
-* jsPsych.timelineVariable('correct_response') = 'f'
-* jsPsych.timelineVariable('position') = 'right'
-* jsPsych.timelineVariable('stimulus') = "img/red_o_f_n_b_079.jpg"
-*
-*randomize_order, como indica, hace al azar timeline_variables cuando su valor es true, por default es false
-*
-* repetitions, cuantas veces repite la lista, en este caso 2
-*/
-var test_procedure = {
-    timeline: [fixation, prueba],
-    timeline_variables: test_stimuli,
-    randomize_order: true,
-    repetitions: 2 
-}
-
-/*
-* Podras notar que no empujamos los plugins individuales, si no lo que hicimos en test_procedure
-*/
-timeline.push(test_procedure);
 
 /* 
 * Ahora, mostraremos los valores que agarramos durante el experimento
