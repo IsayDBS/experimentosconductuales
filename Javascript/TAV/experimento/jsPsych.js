@@ -199,14 +199,13 @@ var pruebas = [
 ]
 
 /*
-* Plugin utiizado para generar los bloques de ensayos
+* Plugin utiizado para generar el experimento
 */
+/*
 var bloque = {
-  timeline: [arregloCuadros, fixation, revision],
-  timeline_variables: pruebas,
-  randomize_order: true,
-  repetitions: 5
+  timeline: 
 }
+*/
 
 /*
 * Agregamos el bloque a timeline
