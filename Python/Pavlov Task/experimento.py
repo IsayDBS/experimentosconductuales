@@ -45,36 +45,35 @@ imagen = visual.ImageStim(ventana, image=directory + '/multimedia/blue.png', siz
 
 respuestas = []
 
-for j in range(5):
+for i in range(5):
+
+    kb.clock.reset()
+
+    sonido.play()
+
+    core.wait(sonido.getDuration())
+
+    sonido.stop()
+
+    imagen.draw()
+
+    ventana.flip()
+
+    c = kb.waitKeys(maxWait = 3)
+
+    if c == None:
+        respuestas.append(['','',True,'',3])
+    elif c[0].name == 'escape':
+        ventana.close() 
+        core.quit()     
+    else:
+        respuestas.append(['','',True,c[0].name,c[0].rt])
+
+    ventana.flip()
+
+for j in range(3):
 
     for i in range(5):
-
-        kb.clock.reset()
-
-        sonido.play()
-
-        core.wait(sonido.getDuration())
-
-        sonido.stop()
-
-        imagen.draw()
-
-        ventana.flip()
-
-        c = kb.waitKeys(maxWait = 3)
-
-        if c == None:
-            respuestas.append(['','',True,'',3])
-        elif c[0].name == 'escape':
-            ventana.close() 
-            core.quit()     
-        else:
-            respuestas.append(['','',True,c[0].name,c[0].rt])
-
-        ventana.flip()
-
-
-    for i in range(10):
         
         kb.clock.reset()
 
@@ -112,6 +111,17 @@ for j in range(5):
                 respuestas.append(['','',False,c[0].name,c[0].rt])
 
         ventana.flip()
+
+
+despedida = visual.TextBox2(ventana, text='Aquí termina el experimento, gracias por participar.' , color='black')
+
+despedida.draw()
+
+ventana.flip()
+
+core.wait(5)
+
+ventana.flip()
 
 with open('respuestas_experimento.csv','w',encoding='UTF8',newline='') as f:
     

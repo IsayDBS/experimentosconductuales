@@ -213,6 +213,21 @@ var bloque = {
 timeline.push(bloque)
 
 /*
+* Agradecemos al participante por participar en nuestro experimento.
+*/
+var despedida = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+  <p>Aquí termina el experimento, gracias por participar!</p>
+  `
+}
+
+/*
+* Agregamos la despedida a la linea de tiempo
+*/
+timeline.push(despedida)
+
+/*
 * Final de nuestro programa, corre lo que hay en timeline
 */
 jsPsych.run(timeline);

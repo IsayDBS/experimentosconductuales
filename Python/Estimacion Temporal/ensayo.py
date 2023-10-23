@@ -54,16 +54,8 @@ instrucciones = visual.TextBox2(ventana, text="""A continuación se presentará 
 #Mnesaje a imprimir en pantalla
 mensaje = visual.TextBox2(ventana, text='El estimulo anterior fue de duración corta presiona S', color= 'black')
 
-#Mensaje a imprimir en pantalla
-#el parámetro bold sirve para hacer las letras rellenas
-#size, es una lista de dos elementos, donde el primer elemento es el largo y el segundo es el alto
-mensajeAtencion = visual.TextBox2(ventana, text='Atención', color='black', alignment="center", bold=True, size=[24,24])
-
-#El atributo windowedSize nos da una lista con dos elementos, el primero es el ancho de la pantall actual, el segundo, es el 
-#largo de la pantalla [ancho, largo]
-pantallaTamanio = ventana.windowedSize
-
-pantallaRoja = visual.Rect(ventana, width = pantallaTamanio[0], height = pantallaTamanio[1], color='darkred')
+#Muestra una cruz negra en el centro de la pantalla
+fixation = visual.TextBox2(ventana, text='+', color='black', alignment='center')
 
 #Creamos un objeto ImageStim, que recibe dos parámetros, el primero una ventana, el segundo, que es image, que es
 #la dirección a la imagen, que esta dentro de la carpeta img, el parámetro size en una lista, nos dice el ancho y el largo
@@ -88,12 +80,8 @@ if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
 #Limpiamos la ventana, ya que no había nada en el buffer
 ventana.flip()
 
-#Dibujamos la pantalla roja en el buffer
-pantallaRoja.draw()
-
-#Dibujamos el mensaje de atención, como está en la misma posición del rectángulo rojo, se sobrepone, es decir, el texto
-#estará sobre el rectángulo
-mensajeAtencion.draw()
+#Dibujamos la cruz en el buffer
+fixation.draw()
 
 #Pasamos lo del buffer sobre la ventana, se vacía el buffer
 ventana.flip()

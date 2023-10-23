@@ -40,6 +40,10 @@ ventana.flip()
 
 c = kb.waitKeys()
 
+if c[0].name == 'escape':
+    ventana.close()
+    core.quit()
+
 ventana.flip()
 
 directory = os.getcwd()
@@ -80,6 +84,75 @@ teclaPresionada = False
 
 respuestas = []
 
+for k in range(5):
+    dibujaCajas(cajas)
+
+    ventana.flip()
+
+    letrasEnCajas = random.choices(letras, k=4)
+
+    random.shuffle(posiciones)
+
+    apariciones = random.randint(0,3)
+        
+    dibujaCajas(cajas) 
+
+    for j in range(apariciones + 1):
+
+        letrasEnCajas[j].pos = posiciones[j]
+
+        if letrasEnCajas[j] == imagenL3:
+                
+            seEncuentra = True
+
+        letrasEnCajas[j].draw()
+
+    ventana.flip()
+
+    core.wait(.35)
+
+    dibujaCajas(cajas)
+
+    ventana.flip()
+
+    c = kb.waitKeys(keyList=['g','h','escape'])
+
+    if c[0].name == 'escape':
+        ventana.close()
+        core.quit()
+
+    if c[0].name == 'g' and seEncuentra == True:
+        imagenCorrecto.draw()
+        ventana.flip()
+        core.wait(1)
+    elif c[0].name == 'g' and seEncuentra == False:
+        imagenIncorrecto.draw()
+        ventana.flip()
+        core.wait(1)
+    elif c[0].name == 'h' and seEncuentra == False:
+        imagenCorrecto.draw()
+        ventana.flip()
+        core.wait(1)
+    elif c[0].name == 'h' and seEncuentra == True:
+        imagenIncorrecto.draw()
+        ventana.flip()
+        core.wait(1)
+    seEncuentra= False
+
+ventana.flip()
+
+mensaje1 = visual.TextBox2(ventana, text="Termina la primer fase del experimento, presiona cualquier tecla para continuar", color='white')
+
+mensaje1.draw()
+
+ventana.flip()
+
+c = kb.waitKeys()
+
+if c[0].name == 'escape':
+    ventana.close()
+    core.quit()
+
 for j in range(4):
 
     for i in range(5):
@@ -114,7 +187,11 @@ for j in range(4):
 
         ventana.flip()
 
-        c = kb.waitKeys(keyList=['g','h'])
+        c = kb.waitKeys(keyList=['g','h','escape'])
+
+        if c[0].name == 'escape':
+            ventana.close()
+            core.quit()
 
         if c[0].name == 'g' and seEncuentra == True:
             imagenCorrecto.draw()
@@ -138,6 +215,16 @@ for j in range(4):
             core.wait(1)
         respuestas.append(['','',listaImagenes(letrasEnCajas,apariciones+1, diccionarioAux),seEncuentra, teclaPresionada])
         seEncuentra = False
+
+despedida = visual.TextBox2(ventana, text='Aquí termina el experimento, gracias por participar.' , color='black')
+
+despedida.draw()
+
+ventana.flip()
+
+core.wait(5)
+
+ventana.flip()
 
 with open('respuesta_experimento.csv','w',encoding='UTF8',newline='') as f:
 

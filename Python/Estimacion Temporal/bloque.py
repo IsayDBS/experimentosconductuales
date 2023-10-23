@@ -4,8 +4,8 @@ import csv, os, random
 """
 Este código es un bloque de ensayos
 Este código es un ensayo, se muestra una imagen en la pantalla, el punto del ensayo es que el usuario decida si la imagen
-estuvo un tiempo corto (400ms) o largo (1600ms). En este ensayo, se presentará el estímulo, seguido de un texto informando si el
-el estímulo fue largo o corto.
+estuvo un tiempo corto (400, 600, 800 ms)  o largo (1200, 1400, 1600ms), también se agrega el tiempo de 1 segundo (medio). 
+En este ensayo, se presentará el estímulo, seguido de un texto informando si el el estímulo fue largo o corto.
 Se guardará la información referente al nombre del participante, la edad del participante, la tecla que debería presionar 
 el participante, la tecla que presiono, si acerto o no y el tiempo que le tomo presionarla
 """
@@ -49,11 +49,8 @@ instrucciones = visual.TextBox2(ventana, text="""A continuación se presentará 
 mensajeS = visual.TextBox2(ventana, text='El estimulo anterior fue de duración corta presiona S', color= 'black')
 mensajeL = visual.TextBox2(ventana, text='El estímulo anterior fue de duración larga presiona L', color='black')
 
-mensajeAtencion = visual.TextBox2(ventana, text='Atención', color='black', alignment="center", bold=True, size=[24,24])
-
-#Rectángulo rojo
-pantallaTamanio = ventana.windowedSize
-pantallaRoja = visual.Rect(ventana, width = pantallaTamanio[0], height = pantallaTamanio[1], color='darkred')
+#Se presenta una cruz en el centro de la pantalla
+fixation = visual.TextBox2(ventana, text='+', alignment='center', color='black', size=[None,None])
 
 #Imagen usada durante el programa
 imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.5,0.5])
@@ -78,7 +75,7 @@ if c[0].name == 'escape':#Si la tecla presionada por el participante es esc
 ventana.flip()
 
 #Usaremos una lista para sacar los tiempos que aparecerá la imagen en la pantalla
-tiempos = []
+tiempos = [.4]
 
 #Usaremos esta lista para mostrar las diferentes posiciones en las que puede aparecer la imagen en la pantalla
 posiciones=[[0,0]]
@@ -86,25 +83,22 @@ posiciones=[[0,0]]
 #Lista respuestas, donde guardaremos los datos referentes a cada ensayo 
 respuestas = []
 
-#Se haran 5 ensayos, donde la imagen aparecera en una posición al azar en un tiempo al azar
-for i in range(5):
+#Se barajea los tiempos, para que sean al azar
+random.shuffle(tiempos)
+
+#Se haran 7 ensayos, donde la imagen aparecera en una posición al azar en un tiempo al azar
+for i in tiempos:
     #Se barajea las posiciones para que podamos hacer azar
     random.shuffle(posiciones)
 
-    #Se barajea los tiempos, para que sean al azar
-    random.shuffle(tiempos)
-
-    #Se dibuja la pantalla roja sobre el buffer
-    pantallaRoja.draw()
-
-    #Se imprime el emnsaje atención sobre el rectángulo rojo 
-    mensajeAtencion.draw()
+    #Se dibuja fixation sobre el buffer
+    fixation.draw()
 
     #Se pasa el buffer a la ventana, se vacía el buffer
     ventana.flip()
 
-    #El programa espera un segundo
-    core.wait(1)
+    #El programa espera 300 ms
+    core.wait(2)
 
     #Le damos la posición a la imagen, eligiendo el primer elemento de la lista
     #a la cual le hicimos un shuffle (barajear)
@@ -118,7 +112,7 @@ for i in range(5):
 
     #Elegimos el primer elemento de la lista tiempos, a la cual
     #le hicimos un shuffle (barajear)
-    core.wait(tiempos[0])
+    core.wait(i)
 
     #Como no hay nada en el buffer, la pantalla se limpia
     ventana.flip()
@@ -126,33 +120,92 @@ for i in range(5):
     #Se reinicia el reloj interno de la clase teclado
     kb.clock.reset()
 
+    if i < 1:
+        #Se imprime que el estímulo es corto
+        mensajeS.draw()
+
+        #Mostramos el buffer en pantalla
+        ventana.flip()
+    elif i == 1:
+        #Se imprime que el estímulo fue corto
+        #Dibujamos el mensajeS en el buffer
+        #Tomamos 1 segundo como estímulo corto
+        mensajeS.draw()
+
+        #Mostramos el buffer en pantalla
+        ventana.flip()
+    else:
+        #Se imprime que el estímulo fue largo 
+        #Se dibuja mensajeL en el buffer
+        mensajeL.draw()
+
+        #Se muestra el buffer en pantalla
+        ventana.flip()
+
     #Esperamos la respuesta del participante
     #ya sea s, l o escape
-    c = kb.waitKeys(keyList=['s','l','escape'])
-    if c[0].name == 's': #El usuario eligió un tiempo corto, es decir 's'
-        if tiempos[0] == .4: #La imagen aparecio por un tiempo corto
-            #Se agrega la lista a respuestas, los dos primeros elementos
-            #correspondientes al nombre y la edad,
-            #el tercer elemento es de la tecla que debió presionar
-            #el cuarto elemento es de la tecla que presiono el participante
-            #el quinto elemento es del tiempo que tardo en presionar
-            respuestas.append(['','','s','s',c[0].rt])            
-        else: #La imagen aparecio por un tiempo largo (1.6)
-            respuestas.append(['','','l','s',c[0].rt])
-    elif c[0].name == 'escape':#Se presiono la tecla escape
+    c = kb.waitKeys(keyList=['s','l','escape'], maxWait = 5)
+
+    #No se presiono ninguna tecla en los 5 segundos, c es un objeto None
+    if c == None:
+        #Si el tiempo que se presento la imagen fue menor a 1 segundo
+        if i < 1:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 's' porque el
+            #estimulo fue de corta duracion, la cuarta columna
+            #se agrega una '-' porque no se presiono alguna tecla
+            #la quinta columna tiene 5, porque no se presiono nada 
+            #en los 5 segundos
+            respuestas.append(['','','s','-',5])
+        #Si el tiempo que se presento la imagen fue igual a 1 segundo
+        elif i == 1:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 'm' porque el
+            #estimulo fue de media(1s) de duracion, la cuarta columna
+            #se agrega una '-' porque no se presiono alguna tecla
+            #la quinta columna tiene 5, porque no se presiono nada 
+            #en los 5 segundos
+            respuestas.append(['','','m','-',5])
+        #Si el tiempo que se presento la imagen fue mayor a 1 segundo
+        else:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 'l' porque el
+            #estimulo fue de larga duracion, la cuarta columna
+            #se agrega una '-' porque no se presiono alguna tecla
+            #la quinta columna tiene 5, porque no se presiono nada 
+            #en los 5 segundos
+            respuestas.append(['','','l','-',5])
+    elif c[0].name == 'escape': #Se presiono la tecla escape
         #Final del programa
         ventana.close() #Cierra la ventana en la que se hizo el ensayo
         core.quit()     #Cierra todo lo referente a psychopy
-    else:#El usuario eligió un tiempo largo, es decir 'L'
-        if tiempos[0] == .4:#La imagen aparecio por un tiempo corto
-            #Se agrega la lista a respuestas, los dos primeros elementos
-            #correspondientes al nombre y la edad,
-            #el tercer elemento es de la tecla que debió presionar
-            #el cuarto elemento es de la tecla que presiono el participante
-            #el quinto elemento es del tiempo que tardo en presionar
-            respuestas.append(['','','s','l',c[0].rt])
-        else:#La imagen aparecio por un tiempo largo
-            respuestas.append(['','','l','l',c[0].rt])
+    else:#El usuario eligió 'l' o 's'
+        #Si el tiempo que se presento la imagen fue menor a 1 segundo
+        if i < 1:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 's' porque el
+            #estimulo fue de corta duracion, la cuarta columna
+            #se agrega la tecla presionada
+            #la quinta columna tiene el tiempo de respuesta
+            respuestas.append(['','','s',c[0].name,c[0].rt])
+        #Si el tiempo que se presento la imgagen fue igual a 1 segundo
+        elif i == 1:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 'm' porque el
+            #estimulo fue de media(1s) de duracion, la cuarta columna
+            #se agrega la tecla presionada
+            #la quinta columna tiene el tiempo de respuesta
+            respuestas.append(['','','m',c[0].name,c[0].rt])
+        #Si el tiempo que se presnto la imagen fue mayor a 1 segundo
+        else:
+            #Se agrega a respuestas una lista, donde los dos primeros
+            #columnas son vacias, la tercer columna es 'l' porque el
+            #estimulo fue de larga duracion, la cuarta columna
+            #se agrega la tecla presionada
+            #la quinta columna tiene el tiempo de respuesta
+            respuestas.append(['','','l',c[0].name,c[0].rt])
+        #Limpiamos pantalla
+        ventana.flip()
 
 
 #======================

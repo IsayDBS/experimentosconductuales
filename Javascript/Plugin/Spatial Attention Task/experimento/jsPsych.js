@@ -144,6 +144,21 @@ var test_procedure = {
 timeline.push(test_procedure)
 
 /*
+* Agradecemos al participante por participar en nuestro experimento.
+*/
+var despedida = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <p>Aquí termina el experimento, gracias por participar!</p>
+    `
+}
+
+/*
+* Agregamos la despedida a la linea de tiempo
+*/
+timeline.push(despedida)
+
+/*
 * Terminamos nuestro programa, pasamos timeline al método run()
 */
 jsPsych.run(timeline);

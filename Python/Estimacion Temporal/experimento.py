@@ -31,11 +31,7 @@ mensajeS = visual.TextBox2(ventana, text='El estimulo anterior fue de duración 
 
 mensajeL = visual.TextBox2(ventana, text='El estímulo anterior fue de duración larga presiona L', color='black')
 
-mensajeAtencion = visual.TextBox2(ventana, text='Atención', color='black', alignment="center", bold=True, size=[24,24])
-
-pantallaTamanio = ventana.windowedSize
-
-pantallaRoja = visual.Rect(ventana, width = pantallaTamanio[0], height = pantallaTamanio[1], color='darkred')
+fixation = visual.TextBox2(ventana, text='+', color='black', alignment='center')
 
 imagenAzul = visual.ImageStim(ventana, image=directory + '/img/blue.png',size=[0.5,0.5])
 
@@ -51,26 +47,97 @@ if c[0].name == 'escape':
 
 ventana.flip()
 
-tiempos = [.4, 1.6]
+tiempos = [.4, .4, 1.6, 1.6]
 
 posiciones=[[0,0],[0.75,0.75],[0.75,-0.75],[-0.75,0.75],[-0.75,-0.75]]
 
-respuestas = []
+tiempos = [.4, 1.6, .4, 1.6]
 
-for j in range(4):
+random.shuffle(tiempos)
 
-    for i in range(5):
-        random.shuffle(posiciones)
+for k in tiempos:
 
-        random.shuffle(tiempos)
+    random.shuffle(posiciones)
 
-        pantallaRoja.draw()
+    fixation.draw()
 
-        mensajeAtencion.draw()
+    ventana.flip()
+
+    core.wait(.3)
+
+    imagenAzul.pos = posiciones[0]
+
+    imagenAzul.draw()
+
+    ventana.flip()
+
+    core.wait(k)
+
+    ventana.flip()
+
+    if k == 0.4:
+
+        mensajeS.draw()
 
         ventana.flip()
 
-        core.wait(1)
+        c = kb.waitKeys(keyList=['escape','s'])
+
+        if c[0].name == 'escape':
+            
+            ventana.close()
+            
+            core.quit()
+        
+        else:
+            
+            ventana.flip()
+    else:
+
+        mensajeL.draw()
+
+        ventana.flip()
+
+        c = kb.waitKeys(keyList=['escape','l'])
+
+        if c[0].name == 'escape':
+            
+            ventana.close()
+            
+            core.quit()
+        
+        else:
+            
+            ventana.flip()
+
+mensaje1 = visual.TextBox2(ventana, text="Termina la primera parte del experimento, presiona cualquier tecla para continuar con la segunda fase", color='black')
+
+mensaje1.draw()
+
+ventana.flip()
+
+c = kb.waitKeys()
+
+if c[0].name == 'escape':
+    ventana.close()
+    core.quit()
+
+tiempos = [.4, .6, .8, 1, 1.2, 1.4, 1.6]
+
+respuestas = []
+
+for j in range(2):
+
+    random.shuffle(tiempos)
+
+    for i in tiempos:
+        random.shuffle(posiciones)
+
+        fixation.draw()
+
+        ventana.flip()
+
+        core.wait(.3)
 
         imagenAzul.pos=posiciones[0]
 
@@ -78,32 +145,47 @@ for j in range(4):
 
         ventana.flip()
 
-        core.wait(tiempos[0])
+        core.wait(i)
 
         ventana.flip()
 
         kb.clock.reset()
 
-        c = kb.waitKeys(keyList=['s','l','escape'])
-        if c[0].name == 's':
-            if tiempos[0] == .4:
-                respuestas.append(['','','s','s',c[0].rt])            
+        c = kb.waitKeys(keyList=['s','l','escape'], maxWait= 5)
+
+        if c == None:
+            if i < 1:
+                respuestas.append(['','','s','-',5])
+            elif i == 1:
+                respuestas.append(['','','m','-',5])
             else:
-                respuestas.append(['','','l','s',c[0].rt])
+                respuestas.append(['','','l','-',5])
         elif c[0].name == 'escape':
             ventana.close()
             core.quit()
         else:
-            if tiempos[0] == .4:
-                respuestas.append(['','','s','l',c[0].rt])
+            if i < 1:
+                respuestas.append(['','','s',c[0].name,c[0].rt])
+            elif i == 1:
+                respuestas.append(['','','m',c[0].name,c[0].rt])
             else:
-                respuestas.append(['','','l','l',c[0].rt])
+                respuestas.append(['','','l',c[0].name,c[0].rt])
+
+despedida = visual.TextBox2(ventana, text='Aquí termina el experimento, gracias por participar.' , color='black')
+
+despedida.draw()
+
+ventana.flip()
+
+core.wait(5)
+
+ventana.flip()
 
 with open('respuesta_experimento.csv','w',encoding='UTF8',newline='') as f:
     
     writer = csv.writer(f)
 
-    writer.writerow(['nombre','edad','teclaAPresionar','teclaPresionada','tiempo'])
+    writer.writerow(['nombre','edad','teclaAPresionar','teclaPresionada','tiempoDeTeclaPresionada'])
 
     writer.writerow(ok_data)
 
