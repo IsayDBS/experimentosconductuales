@@ -175,7 +175,15 @@ var jsVisualArrayResponse = (function (jspsych){
                 }
 
                 //Variable data que se guarda información en el csv
-                let data = null
+                let data = {
+                    rt: info.rt,
+                    cambioDeColor: trial.cambioColor,
+                    correcto: valores,
+                    colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
+                    colorCeldaDespuesDePrueba: null,
+                    posicionCelda: trial.posicion,
+                    arreglo: trial.arreglo,
+                }
 
                 /*
                 * Si cambioColor es false, el colorCeldaDespuesDePrueba es el mismo que colorCeldaAntesDePrueba
@@ -183,26 +191,10 @@ var jsVisualArrayResponse = (function (jspsych){
                 */
                 if(trial.cambioColor == false){
                     // informacion que se va a guardar
-                    data = {
-                        rt: info.rt,
-                        cambioDeColor: trial.cambioColor,
-                        correcto: valores,
-                        colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
-                        colorCeldaDespuesDePrueba: trial.colorPosicion,
-                        posicionCelda: trial.posicion,
-                        arreglo: trial.arreglo,
-                    }
+                    data.colorCeldaDespuesDePrueba = trial.colorPosicion
                 }else{
                     // informacion que se va a guardar
-                    data = {
-                        rt: info.rt,
-                        cambioDeColor: trial.cambioColor,
-                        correcto: valores,
-                        colorCeldaAntesDePrueba: trial.colorPosicion, //el color de la celda
-                        colorCeldaDespuesDePrueba: trial.color,
-                        posicionCelda: trial.posicion,
-                        arreglo: trial.arreglo,
-                    }
+                    data.colorCeldaDespuesDePrueba = trial.color
                 }
             
                 // final
